@@ -1,5 +1,12 @@
-import React from "react";
+import Menu from '../components/Menu'
 
-const Dashboard = () => <div>Dashboard</div>;
+const Dashboard = () => {
+    return (
+        <div>
+            <Menu/>
+            Dashboard
+        </div>
+    )
+}
 
 export default Dashboard;
