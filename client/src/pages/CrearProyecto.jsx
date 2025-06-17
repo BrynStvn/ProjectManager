@@ -1,5 +1,12 @@
-import React from "react";
+import Menu from '../components/Menu'
 
-const CrearProyecto = () => <div>Crear Proyecto</div>;
+const CrearProyecto = () => {
+    return (
+    <div>
+        <Menu/>
+        Crear Proyecto
+    </div>
+    )
+}
 
-export default CrearProyecto;
+export default CrearProyecto

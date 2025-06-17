@@ -1,5 +1,12 @@
-import React from "react";
+import Menu from '../components/Menu'
 
-const Perfil = () => <div>Perfil</div>;
+const Perfil = () => {
+    return (
+        <div>
+            <Menu/>
+            Perfil
+        </div>
+    )
+}
 
 export default Perfil;

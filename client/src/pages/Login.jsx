@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import loginService from "../services/login";
@@ -58,6 +59,7 @@ const Login = () => {
 
         <button type="submit">Iniciar Sesión</button>
       </form>
+      <Link to="/registro" style={{ marginRight: 16 }}>Crear Cuenta</Link>
     </div>
   );
 };

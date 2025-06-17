@@ -1,5 +1,12 @@
-import React from "react";
+import Menu from '../components/Menu'
 
-const Tareas = () => <div>Tareas</div>;
+const Tareas = () => {
+    return (
+        <div>
+            <Menu/>
+            Tareas
+        </div>
+    )
+}
 
 export default Tareas;
