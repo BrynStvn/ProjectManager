@@ -5,13 +5,13 @@ const User = require('../models/user')
 
 loginRouter.post('/', async (request, response, next) => {
   try {
-    const { email, password } = request.body
+    const { username, password } = request.body
 
-    if (!email || !password) {
-      return response.status(400).json({ error: 'Se requieren email y contraseña' })
+    if (!username || !password) {
+      return response.status(400).json({ error: 'Se requieren username y contraseña' })
     }
 
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ username })
 
     const passwordCorrect = user
       ? await bcrypt.compare(password, user.passwordHash)
@@ -19,13 +19,13 @@ loginRouter.post('/', async (request, response, next) => {
 
     if (!user || !passwordCorrect) {
       return response.status(401).json({
-        error: 'Email o contraseña incorrectos'
+        error: 'username o contraseña incorrectos'
       })
     }
 
     const userForToken = {
       id: user._id,
-      email: user.email,
+      username: user.username,
     }
 
     const token = jwt.sign(
@@ -36,9 +36,10 @@ loginRouter.post('/', async (request, response, next) => {
 
     response.status(200).json({
       token,
-      email: user.email,
+      username: user.username,
       name: user.name,
-      username: user.username // útil si lo usas en el frontend
+      email: user.email, // útil si lo usas en el frontend
+      rol: user.rol
     })
 
   } catch (error) {

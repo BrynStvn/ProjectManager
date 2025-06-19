@@ -1,20 +1,26 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
+const { userExtractor } = require('../utils/middleware')
 
-usersRouter.get('/', async (request, response) => {
+usersRouter.get('/', async (require, response) => {
   const users = await User.find({})
   response.json(users)
 })
 
-usersRouter.post('/', async (request, response, next) => {
+usersRouter.post('/', userExtractor, async (request, response, next) => {
   try {
-    const { username, name, email, password } = request.body
+    const { username, name, email, rol, password } = request.body
+    const authUser = request.user
 
     if (!password || password.length < 8) {
       return response.status(400).json({
         error: 'La contraseña debe tener al menos 8 caracteres'
       })
+    }
+
+    if (!authUser || authUser.rol !== 'administrador') {
+      return response.status(403).json({ error: 'Acceso denegado: solo el administrador puede crear usuarios' })
     }
 
     const saltRounds = 10
@@ -24,6 +30,7 @@ usersRouter.post('/', async (request, response, next) => {
       username,
       name,
       email,
+      rol,
       passwordHash,
     })
 
@@ -42,6 +49,26 @@ usersRouter.post('/', async (request, response, next) => {
     }
 
     // Para otros errores no esperados
+    next(error)
+  }
+})
+
+usersRouter.delete('/:id', userExtractor, async (request, response, next) => {
+  try {
+    const authUser = request.user
+    const user = await User.findById(request.params.id)
+    if (!user) {
+      return response.status(404).json({ error: 'user not found' })
+    }
+
+    if (!authUser || authUser.rol !== 'administrador') {
+      return response.status(403).json({ error: 'Acción denegada: solo el administrador puede eliminar empleados' })
+    }
+
+    await User.findByIdAndDelete(request.params.id)
+    response.status(204).end()
+
+  } catch (error) {
     next(error)
   }
 })

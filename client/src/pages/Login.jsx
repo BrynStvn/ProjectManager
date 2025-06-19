@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import loginService from "../services/login";
 
 const Login = () => {
-  const [email, setEmail] = useState("")
+  const [username, setUserName] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState({})
   const [apiError, setApiError] = useState("")
@@ -13,14 +13,14 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const newErrors = {}
-    if (!email) newErrors.email = "El correo es obligatorio."
+    if (!username) newErrors.username = "El correo es obligatorio."
     if (!password) newErrors.password = "La contraseña es obligatoria."
     setErrors(newErrors)
     setApiError("")
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const userData = await loginService.login({ email, password })
+        const userData = await loginService.login({ username, password })
         localStorage.setItem("user", JSON.stringify(userData))
         navigate("/")
       } catch (error) {
@@ -38,13 +38,13 @@ const Login = () => {
         {apiError && <p style={{ color: "red" }}>{apiError}</p>}
 
         <div>
-          <label>Correo Electrónico</label>
+          <label>Username</label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="username"
+            value={username}
+            onChange={(e) => setUserName(e.target.value)}
           />
-          {errors.email && <p>{errors.email}</p>}
+          {errors.username && <p>{errors.username}</p>}
         </div>
 
         <div>

@@ -8,6 +8,7 @@ const Menu = () => {
       <Link to="/proyectos/crear" style={{ marginRight: 16 }}>Crear Proyecto</Link>
       <Link to="/tareas" style={{ marginRight: 16 }}>Tareas</Link>
       <Link to="/perfil" style={{ marginRight: 16 }}>Perfil</Link>
+      <Link to="/registro" style={{ marginRight: 16 }}>Equipo</Link>
       <button onClick={() => {
         localStorage.removeItem("user");
         window.location.href = "/login";

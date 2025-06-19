@@ -26,6 +26,11 @@ const userSchema = new mongoose.Schema({
       'Por favor, proporciona un correo válido'
     ]
   },
+  rol: {
+    type: String,
+    required: [true, 'El rol del integrante es obligatorio'],
+    trim: true
+  },
   passwordHash: {
     type: String,
     required: [true, 'La contraseña es obligatoria'],
